@@ -1,18 +1,52 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import FormAdd from './components/FormAdd';
+import TodosContainer from './components/TodosContainer';
 import './App.css';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+
+
+    this.handleAdd = this.handleAdd.bind(this);
+
+
+    this.state = {
+      todos: this.props.initialData
+    }
+
+
+  }
+  handleAdd(title){
+
+    const titleSpaceRemove = title.trim()
+    if(!titleSpaceRemove) return
+    const todosLength = (this.state.todos.length +1);
+
+    const todo = {
+      id: todosLength,
+      title,
+      completed: false
+    };
+    const todos = [...this.state.todos, todo];
+    this.setState({ todos });
+
+
+
+
+  }
   render() {
+    const todos = this.state.todos;
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div className="container">
+        <main className="container__main">
+          <TodosContainer todos={todos} />
+        </main>
+        <footer className="container__footer">
+          <FormAdd todos={todos} onClick={this.handleAdd}/>
+        </footer>
       </div>
     );
   }
